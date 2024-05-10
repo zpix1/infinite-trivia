@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { GameQuestions } from "./GameQuestions";
 import { ThemeForm } from "./ThemeForm";
@@ -14,7 +12,7 @@ export function Game() {
   return (
     <>
       <p className="text-gray-700 mb-4">
-        Let's set a theme at first. Enter any.
+        Let&apos;s set a theme at first. Enter any.
       </p>
       <ThemeForm
         setTheme={async (theme) => {

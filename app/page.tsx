@@ -1,4 +1,5 @@
 "use client";
+
 import { useAtomValue } from "jotai";
 import { Game } from "../components/Game";
 import { themeAtom } from "../lib/atoms";

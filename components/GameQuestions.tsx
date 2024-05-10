@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { getQuestion, OllamaMessage, Question } from "@/lib/ai";
+import { themeAtom } from "@/lib/atoms";
 import { cn } from "@/lib/utils";
+import { useAtomValue } from "jotai";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -26,14 +28,14 @@ function QuestionSelection(props: QuestionSelectionProps) {
       <p className="text-gray-700 mb-4 mt-4">{props.question.text}</p>
       <div
         className={cn(
-          "grid grid-cols-2",
+          "grid gap-4 grid-cols-2",
           props.answered !== undefined && "pointer-events-none"
         )}
       >
         {props.question.possibleAnswers.map((e) => (
           <div
             className={cn(
-              "text-gray-700 p-3 m-1 border text-center rounded-sm border-gray-500 cursor-pointer ",
+              "text-gray-700 p-3 border text-center rounded-sm border-gray-500 cursor-pointer ",
               props.answered === e &&
                 (e === props.question.correctAnswer
                   ? "bg-green-200"
@@ -75,6 +77,7 @@ function getMark(correct: number, total: number): string {
 }
 
 export function GameQuestions({ theme }: { theme: string }) {
+  const themeData = useAtomValue(themeAtom);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [history, setHistory] = useState<OllamaMessage[] | undefined>(
@@ -118,16 +121,6 @@ export function GameQuestions({ theme }: { theme: string }) {
   const total = state.totalQuestions;
   const correct = state.questions.reduce((a, e) => a + Number(e.correct), 0);
 
-  const review = (() => {
-    let text = ``;
-    if (correct === total) {
-      text += "Well done!";
-    } else {
-      text += "Try again to be better :)";
-    }
-    return text;
-  })();
-
   return (
     <>
       {state.questions.map((q, i) => (
@@ -167,17 +160,30 @@ export function GameQuestions({ theme }: { theme: string }) {
         </Button>
       )}
       {finished && (
-        <div className="flex gap-5 bg-green-500 shadow-md p-5 rounded-sm text-white">
-          <span className="text-5xl">{getMark(correct, total)}</span>
-          <span>
-            Your result: {correct}/{total} points
-            <br />
-            {review}
-          </span>
-        </div>
+        <>
+          <p className="text-gray-700 mb-4 mt-4">Share me:</p>
+          <div className="flex gap-5 shadow-xl p-5 rounded-sm text-black">
+            <span className="text-5xl">{getMark(correct, total)}</span>
+            <span>
+              <span className="font-medium">
+                I played {themeData?.name}
+                {themeData?.emoji} trivia at{" "}
+                <a className="underline text-blue-700">
+                  zpix1.github.io/infinite-trivia
+                </a>{" "}
+              </span>
+              <br />
+              My result: {correct}/{total} points
+            </span>
+          </div>
+        </>
       )}
       {error && (
-        <p className="mt-2 text-red-500 font-medium">Error: {error.message}</p>
+        <p className="mt-2 text-red-500 font-medium">
+          Error, try again
+          <br />
+          {error.message}
+        </p>
       )}
     </>
   );
