@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { jsonrepair } from "jsonrepair";
 
 const ollamaGenerateResponseScheme = z.object({
   response: z.string(),
@@ -129,7 +130,9 @@ Example:
 
   console.log(result, newHistory);
 
-  const question = questionScheme.parse(JSON.parse(result.message.content));
+  const question = questionScheme.parse(
+    JSON.parse(jsonrepair(result.message.content))
+  );
 
   console.log(question);
 

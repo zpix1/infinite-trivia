@@ -35,7 +35,7 @@ function QuestionSelection(props: QuestionSelectionProps) {
         {props.question.possibleAnswers.map((e) => (
           <div
             className={cn(
-              "text-gray-700 p-3 border text-center rounded-sm border-gray-500 cursor-pointer ",
+              "text-gray-700 p-3 border text-center text-ver rounded-sm border-gray-500 cursor-pointer ",
               props.answered === e &&
                 (e === props.question.correctAnswer
                   ? "bg-green-200"
@@ -161,7 +161,7 @@ export function GameQuestions({ theme }: { theme: string }) {
       )}
       {finished && (
         <>
-          <p className="text-gray-700 mb-4 mt-4">Share me:</p>
+          <p className="text-gray-700 mb-4 mt-4">Share your result:</p>
           <div className="flex gap-5 shadow-xl p-5 rounded-sm text-black">
             <span className="text-5xl">{getMark(correct, total)}</span>
             <span>

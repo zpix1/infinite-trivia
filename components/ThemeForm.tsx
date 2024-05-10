@@ -58,7 +58,7 @@ export function ThemeForm(props: ThemeFormProps) {
               <FormItem>
                 <FormLabel>Theme</FormLabel>
                 <FormControl>
-                  <Input placeholder="car brands" {...field} />
+                  <Input placeholder="Car Brands" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

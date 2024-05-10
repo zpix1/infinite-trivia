@@ -23,6 +23,9 @@ dependencies:
   jotai:
     specifier: ^2.8.0
     version: 2.8.0(@types/react@18.0.0)(react@18.0.0)
+  jsonrepair:
+    specifier: ^3.7.1
+    version: 3.7.1
   lucide-react:
     specifier: ^0.378.0
     version: 0.378.0(react@18.0.0)
@@ -1864,6 +1867,11 @@ packages:
     dependencies:
       minimist: 1.2.8
     dev: true
+
+  /jsonrepair@3.7.1:
+    resolution: {integrity: sha512-6NaHQwddsmBRXODp78PFxGxORI9yYemz+yU/HZXjZFZf/9+78VfotyhGmStF1/7X1bjRYmxQzRBv659OqbQUQA==}
+    hasBin: true
+    dev: false
 
   /jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}

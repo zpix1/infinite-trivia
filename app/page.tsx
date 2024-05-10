@@ -3,6 +3,11 @@
 import { useAtomValue } from "jotai";
 import { Game } from "../components/Game";
 import { themeAtom } from "../lib/atoms";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+// If loading a variable font, you don't need to specify the font weight
+const inter = Inter({ subsets: ["latin"] });
 
 const formatBgImage = (emoji: string) =>
   `url(
@@ -20,7 +25,10 @@ export default function Home() {
           backgroundColor: themeData?.backgroundColor,
           backgroundImage: themeData?.emoji && formatBgImage(themeData.emoji),
         }}
-        className="bg-slate-100 min-h-screen transition-all"
+        className={cn(
+          "bg-slate-100 min-h-screen transition-all",
+          inter.className
+        )}
       >
         <div className="flex justify-center p-6">
           <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-2xl">
