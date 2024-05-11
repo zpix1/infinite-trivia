@@ -166,8 +166,7 @@ export function GameQuestions({ theme }: { theme: string }) {
             <span className="text-5xl">{getMark(correct, total)}</span>
             <span>
               <span className="font-medium">
-                I played {themeData?.name}
-                {themeData?.emoji} trivia at{" "}
+                I played {themeData?.name} {themeData?.emoji} trivia at{" "}
                 <a className="underline text-blue-700">
                   zpix1.github.io/infinite-trivia
                 </a>{" "}
