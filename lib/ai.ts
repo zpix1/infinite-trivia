@@ -8,20 +8,14 @@ const ollamaGenerateResponseScheme = z.object({
 });
 
 async function askAi(prompt: string): Promise<string> {
-  const responseData = await fetch("http://127.0.0.1:11434/api/generate", {
-    method: "POST",
-    body: JSON.stringify({
-      model: "llama3",
-      prompt,
-      stream: false,
-    }),
-  });
+  const data = await askAiChat([
+    {
+      role: "user",
+      content: prompt,
+    },
+  ]);
 
-  const json = await responseData.json();
-
-  const { response } = ollamaGenerateResponseScheme.parse(json);
-
-  return response;
+  return data.message.content;
 }
 
 export type OllamaMessage = {
@@ -39,18 +33,51 @@ const ollamaChatMessageSchema = z.object({
 async function askAiChat(
   messages: OllamaMessage[]
 ): Promise<z.infer<typeof ollamaChatMessageSchema>> {
-  const responseData = await fetch("http://127.0.0.1:11434/api/chat", {
-    method: "POST",
-    body: JSON.stringify({
-      model: "llama3",
-      messages,
-      stream: false,
-    }),
+  const responseData = await fetch(
+    "http://localhost:8080/backend-api/v2/conversation",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        id: "123",
+        conversation_id: "321",
+        model: "gpt-4o",
+        messages,
+      }),
+    }
+  );
+
+  const res: string[] = [];
+
+  const text = await responseData.text();
+  for (const line of text.trim().split("\n")) {
+    console.log(line);
+    const el = JSON.parse(line);
+    if (el.type === "content") {
+      res.push(el.content);
+    }
+  }
+
+  // const reader = responseData.body?.getReader();
+
+  // if (!reader) {
+  //   throw new Error("123");
+  // }
+
+  // while (!reader.closed) {
+  //   const text = new TextDecoder().decode((await reader.read()).value);
+  //   console.log(text);
+  //   res.push(JSON.parse(text).content);
+  // }
+
+  const message = ollamaChatMessageSchema.parse({
+    message: {
+      role: "assistant",
+      content: res.join(""),
+    },
   });
-
-  const json = await responseData.json();
-
-  const message = ollamaChatMessageSchema.parse(json);
 
   return message;
 }
